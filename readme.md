@@ -8,5 +8,5 @@ This package is a Streamlit web application that will modularly grow as I work o
 HeWo has a web server that can receive comunications for it's control.
 
 ```bash
-cowsay hello world
+streamlit run HeWeb.py
 ```

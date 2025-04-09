@@ -1,8 +1,9 @@
 import requests
 import streamlit as st
+import yaml
 
 SET_EMOTION_ENDPOINT = "http://127.0.0.1:5000/set_emotion_goal"
-
+EMOTION_DATA_PATH = "data/emotions"
 
 class EmotionControl:
     def __init__(self):
@@ -38,9 +39,12 @@ class EmotionControl:
 
     def save_emotion(self):
         st.sidebar.title("Save emotion values")
-        st.sidebar.text_input("Emotion name", key="emotion_name")
+        emotion_name = st.sidebar.text_input("Emotion name", key="emotion_name")
         if st.sidebar.button("Save emotion"):
-            st.sidebar.success("Not yet implemented")
+            data = self.get_slider_values()
+            with open(f"{EMOTION_DATA_PATH}/{emotion_name}.yaml", "a") as file:
+                yaml.dump(data, file)
+            st.sidebar.success("Emotion saved successfully")
 
     def left_eye(self):
         st.write("## Left eye")
@@ -59,9 +63,9 @@ class EmotionControl:
 
         with col3:
             st.write("#### Lower eyebrow")
-            st.slider("lebl_a", 0, 100, 100, key="lebl_a")
-            st.slider("lebl_b", 0, 100, 100, key="lebl_b")
-            st.slider("lebl_c", 0, 100, 100, key="lebl_c")
+            st.slider("lebl_a", 0, 100, 0, key="lebl_a")
+            st.slider("lebl_b", 0, 100, 0, key="lebl_b")
+            st.slider("lebl_c", 0, 100, 0, key="lebl_c")
 
     def right_eye(self):
         st.write("## Right eye")
@@ -79,9 +83,9 @@ class EmotionControl:
 
         with col3:
             st.write("#### Lower eyebrow")
-            st.slider("rebl_a", 0, 100, 100, key="rebl_a")
-            st.slider("rebl_b", 0, 100, 100, key="rebl_b")
-            st.slider("rebl_c", 0, 100, 100, key="rebl_c")
+            st.slider("rebl_a", 0, 100, 0, key="rebl_a")
+            st.slider("rebl_b", 0, 100, 0, key="rebl_b")
+            st.slider("rebl_c", 0, 100, 0, key="rebl_c")
 
     def mouth(self):
         st.write("## Mouth")

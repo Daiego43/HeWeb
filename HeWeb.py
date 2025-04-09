@@ -20,9 +20,8 @@ class HeWeb:
     def features(self):
         st.title("Features")
         st.write("The following features are available in the HeWo project:")
-        st.checkbox("Face emotion control", disabled=True)
+        st.checkbox("Face emotion control", disabled=True, value=True)
         st.checkbox("Face emotion study", disabled=True)
-        st.checkbox("Thin Thoughts", disabled=True)
 
 
 HeWeb()
