@@ -30,12 +30,11 @@ class EmotionControl:
         self.send_request(data)
 
     def send_request(self, data):
-        response = requests.post(SET_EMOTION_ENDPOINT, json=data)
-        # Verificar la respuesta
-        if response.status_code == 200:
-            print("Éxito:", response.json())
-        else:
-            print("Error:", response.json())
+        try:
+            requests.post(SET_EMOTION_ENDPOINT, json=data)
+        except requests.exceptions.ConnectionError:
+            st.error("Error: Unable to connect to HeWo.")
+            return
 
     def save_emotion(self):
         st.sidebar.title("Save emotion values")
