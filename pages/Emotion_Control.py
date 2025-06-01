@@ -2,7 +2,7 @@ import requests
 import streamlit as st
 import yaml
 
-SET_EMOTION_ENDPOINT = "http://127.0.0.1:5000/set_emotion_goal"
+SET_EMOTION_ENDPOINT = "http://127.0.0.1:8000/face/set_emotion_goal"
 EMOTION_DATA_PATH = "data/emotions"
 
 class EmotionControl:
