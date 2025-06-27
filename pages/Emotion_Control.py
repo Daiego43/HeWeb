@@ -1,8 +1,10 @@
 import requests
 import streamlit as st
-import yaml
+import pandas as pd
+import os
 
-SET_EMOTION_ENDPOINT = "http://127.0.0.1:8000/face/set_emotion_goal"
+SERVER = os.environ.get("SERVER")
+SET_EMOTION_ENDPOINT = f"http://{SERVER}:8000/hewo/set_emotion_goal"
 EMOTION_DATA_PATH = "data/emotions"
 
 class EmotionControl:
@@ -41,9 +43,20 @@ class EmotionControl:
         emotion_name = st.sidebar.text_input("Emotion name", key="emotion_name")
         if st.sidebar.button("Save emotion"):
             data = self.get_slider_values()
-            with open(f"{EMOTION_DATA_PATH}/{emotion_name}.yaml", "a") as file:
-                yaml.dump(data, file)
-            st.sidebar.success("Emotion saved successfully")
+            data["emotion_name"] = emotion_name
+
+            path = f"{EMOTION_DATA_PATH}/emotions.csv"
+            os.makedirs(EMOTION_DATA_PATH, exist_ok=True)
+
+            # Cargar CSV existente o crear uno nuevo
+            if os.path.exists(path):
+                df = pd.read_csv(path)
+                df = pd.concat([df, pd.DataFrame([data])], ignore_index=True)
+            else:
+                df = pd.DataFrame([data])
+
+            df.to_csv(path, index=False)
+            st.sidebar.success(f"Emotion '{emotion_name}' saved successfully.")
 
     def left_eye(self):
         st.write("## Left eye")
